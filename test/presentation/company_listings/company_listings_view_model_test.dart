@@ -8,7 +8,7 @@ import 'package:stock_app/presentation/company_listings/company_listings_view_mo
 
 void main() {
   test('company_listings_view_model 생성시 데이터를 잘 가져와야한다', () async {
-    await Hive.initFlutter();
+    Hive.init(null);
   Hive.registerAdapter(CompanyListingEntityAdapter());
     final _api = StockApi();
     final _dao =StockDao();
