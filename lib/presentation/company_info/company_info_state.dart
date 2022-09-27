@@ -12,6 +12,7 @@ class CompanyInfoState with _$CompanyInfoState {
     //data 가 없는 경우도 있을수 있으니 널러블
     CompanyInfo? companyInfo,
     @Default(false)bool isLoading,
+    String? errorMessage,
 
     
   }) = _CompanyInfoState;

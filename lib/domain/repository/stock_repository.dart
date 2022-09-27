@@ -1,4 +1,5 @@
 //개발시 사용할 기능 추상클래스 작성 후 데이타 레포에서 실제구현 로직 작성(인터페이스)
+import 'package:stock_app/domain/model/company_info.dart';
 import 'package:stock_app/domain/model/company_listing.dart';
 import 'package:stock_app/util/result.dart';
 
@@ -9,4 +10,8 @@ abstract class StockRepository {
     bool fetchFromRemote,
     String query,
   );
+
+  //company info 가져오는 기능 추가
+  //symbol이 주어지면 그거에 관련된 info를 불러오는 기능
+  Future<Result<CompanyInfo>> getCompanyInfo(String symbol);
 }
