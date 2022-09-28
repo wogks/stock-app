@@ -10,7 +10,7 @@ class CompanyInfoViewModel with ChangeNotifier {
 
   CompanyInfoViewModel(this._repository, String symbol) {
     //첫번쨰 화면에서 두번쨰화면으로 넘어갈때 symbol을 넘기기위해 인자값 작성
-loadCompanyInfo(symbol);
+    loadCompanyInfo(symbol);
   }
 
   Future<void> loadCompanyInfo(String symbol) async {
@@ -35,6 +35,25 @@ loadCompanyInfo(symbol);
       },
     );
 
+    notifyListeners();
+
+    final intradayInfo = await _repository.getIntradayInfo(symbol);
+    intradayInfo.when(
+      success: (infos) {
+        _state = state.copyWith(
+          stockInfos: infos,
+          isLoading: false,
+          errorMessage: null,
+        );
+      },
+      error: (e) {
+        _state = state.copyWith(
+          stockInfos: [],
+          isLoading: false,
+          errorMessage: e.toString(),
+        );
+      },
+    );
     notifyListeners();
   }
 }
