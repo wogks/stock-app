@@ -15,6 +15,7 @@ class StockRepositoryImpl implements StockRepository {
   final StockApi _api; //리모트해서 데이터를 가져올때 필요함
   final StockDao _dao; //로컬에 접근할수있는 다오
   final _companyListingsParser = CompanyListingsParser();
+  // ignore: non_constant_identifier_names
   final _IntradayInfoParser = IntradayInfoParser();
   StockRepositoryImpl(this._api, this._dao);
 
