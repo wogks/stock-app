@@ -4,6 +4,7 @@ import 'package:stock_app/data/mapper/company_mapper.dart';
 import 'package:stock_app/data/source/remote/stock_api.dart';
 import 'package:stock_app/domain/model/company_info.dart';
 import 'package:stock_app/domain/model/company_listing.dart';
+import 'package:stock_app/domain/model/intraday_info.dart';
 import 'package:stock_app/domain/repository/stock_repository.dart';
 import 'package:stock_app/util/result.dart';
 
@@ -59,5 +60,11 @@ class StockRepositoryImpl implements StockRepository {
     } catch (e) {
       return Result.error(Exception('회사 정보 로드 실패!! : ${e.toString()}'));
     }
+  }
+
+  @override
+  Future<Result<List<IntradayInfo>>> getIntradayInfo(String symbol) {
+    // TODO: implement getIntradayInfo
+    throw UnimplementedError();
   }
 }
