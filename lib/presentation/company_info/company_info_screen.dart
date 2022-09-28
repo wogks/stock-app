@@ -14,26 +14,53 @@ class CompanyInfoScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            if (state.errorMessage != null) Center( child:Text(state.errorMessage!)),
-            if(state.isLoading) const Center(child: CircularProgressIndicator()),
-            if(state.isLoading == false && state.errorMessage == null) _buildBudy(state.companyInfo!)
+            if (state.errorMessage != null)
+              Center(child: Text(state.errorMessage!)),
+            if (state.isLoading)
+              const Center(child: CircularProgressIndicator()),
+            if (state.isLoading == false && state.errorMessage == null)
+              _buildBudy(state.companyInfo!)
           ],
         ),
       ),
     );
   }
 
-  Widget _buildBudy(CompanyInfo companyInfo){
+  Widget _buildBudy(CompanyInfo companyInfo) {
     return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Text(companyInfo.name),
-                  Text(companyInfo.symbol),
-                  Text(companyInfo.industry),
-                  Text(companyInfo.country),
-                ],
-              ),
-            );
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            companyInfo.name,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                overflow: TextOverflow.ellipsis),
+          ),
+          Text(
+            companyInfo.symbol,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          const Divider(),
+          Text(
+            'Industry: ${companyInfo.industry}',
+            style: const TextStyle(overflow: TextOverflow.ellipsis),
+          ),
+          Text(
+            'Country: ${companyInfo.country}',
+            style: const TextStyle(overflow: TextOverflow.ellipsis),
+          ),
+          const Divider(),
+          Text(
+            companyInfo.description,
+            style: const TextStyle(fontSize: 12),
+          )
+        ],
+      ),
+    );
   }
 }

@@ -7,12 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:stock_app/domain/repository/stock_repository.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_action.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_state.dart';
-import 'package:stock_app/util/result.dart';
 
 class CompanyListingsViewModel with ChangeNotifier {
   final StockRepository _repository;
 
-  var _state = CompanyListingsState(); // 계속 변해야되기 떄문에 var를 사용
+  var _state = const CompanyListingsState(); // 계속 변해야되기 떄문에 var를 사용
 
   Timer? _debounce;
 

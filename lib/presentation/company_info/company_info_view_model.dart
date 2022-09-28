@@ -9,6 +9,7 @@ class CompanyInfoViewModel with ChangeNotifier {
   CompanyInfoState get state => _state;
 
   CompanyInfoViewModel(this._repository, String symbol) {
+    //첫번쨰 화면에서 두번쨰화면으로 넘어갈때 symbol을 넘기기위해 인자값 작성
 loadCompanyInfo(symbol);
   }
 

@@ -6,8 +6,8 @@ void main() {
   test('네트워크 통신', ()async{
      //impl에 있는 로직 가져와서 테스트
     final response = await StockApi().getListings();
-     final _parser = CompanyListingsParser();
-     final remoteListings = await _parser.parse(response.body);
+     final parser = CompanyListingsParser();
+     final remoteListings = await parser.parse(response.body);
 
     expect(remoteListings[0].symbol, 'A');
     expect(remoteListings[0].name, 'Agilent Technologies Inc');
