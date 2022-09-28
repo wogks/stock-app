@@ -7,7 +7,7 @@ part 'intraday_info_dto.g.dart';
 @freezed
 class IntradayInfoDto with _$IntradayInfoDto {
   const factory IntradayInfoDto({
-    required String timeStamp,
+    required String timestamp,
     required double close,
   }) = _IntradayInfoDto;
 

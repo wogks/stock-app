@@ -9,6 +9,6 @@ extension ToIntradayInfo on IntradayInfoDto {
   IntradayInfo toIntradayInfo () {
     //2022-09-27 20:00:00 이걸 데이트 타임으로 변환 할건데 intl라이브러리 설치 필요
     final formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
-    return IntradayInfo(date:formatter.parse(timeStamp), close: close,);
+    return IntradayInfo(date: formatter.parse(timestamp), close: close);
   }
 }
