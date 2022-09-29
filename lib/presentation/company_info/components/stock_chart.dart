@@ -44,7 +44,7 @@ class ChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final priceStep = (upperValue = lowerValue) / 5.0;
+    final priceStep = (upperValue - lowerValue) / 5.0;
     for (var i = 0; i < 5; i++) {
       //텍스트 페인트로 위치를 정함
       //텍스트스팬으로 설정
@@ -87,7 +87,7 @@ class ChartPainter extends CustomPainter {
       final nextInfo = infos[nextIndex];
       final leftRatio = (info.close - lowerValue) / (upperValue - lowerValue);
       final rightRatio =
-          (nextInfo.close - lowerValue) / (upperValue = lowerValue);
+          (nextInfo.close - lowerValue) / (upperValue - lowerValue);
       //좌표
       final x1 = spacing + i * spacePerHour;
       final y1 = size.height - spacing - (leftRatio * size.height).toDouble();
