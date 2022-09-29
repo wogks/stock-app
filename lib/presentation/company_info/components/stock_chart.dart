@@ -2,14 +2,20 @@
 //차트용 위젯 작성
 //모든 위젯을 별도로 만들때는 일단 stl로 만들고 나중에 상황봐서 stf로 바꿈
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:stock_app/domain/model/intraday_info.dart';
 
 class StockChart extends StatelessWidget {
   final List<IntradayInfo> infos;
-  final Color color;
-  const StockChart({super.key, this.infos = const [], required this.color});
+  final Color graphColor;
+  final Color textColor;
+  const StockChart(
+      {super.key,
+      this.infos = const [],
+      required this.graphColor,
+      required this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class StockChart extends StatelessWidget {
       width: double.infinity,
       height: 250,
       child: CustomPaint(
-        painter: ChartPainter(infos, color),
+        painter: ChartPainter(infos, graphColor, textColor),
       ),
     );
   }
@@ -25,18 +31,19 @@ class StockChart extends StatelessWidget {
 
 class ChartPainter extends CustomPainter {
   final List<IntradayInfo> infos;
-  final Color color;
+  final Color graphColor;
+  final Color textColor;
   late int upperValue = infos.map((e) => e.close).fold<double>(0.0, max).ceil();
 
   late int lowerValue = infos.map((e) => e.close).reduce(min).toInt();
 
-  final spacing = 50;
+  final spacing = 50.0;
 
   late Paint strokePaint;
 
-  ChartPainter(this.infos, this.color) {
+  ChartPainter(this.infos, this.graphColor, this.textColor) {
     strokePaint = Paint()
-      ..color = Colors.green
+      ..color = graphColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
@@ -51,7 +58,7 @@ class ChartPainter extends CustomPainter {
       final tp = TextPainter(
           text: TextSpan(
             text: '${(lowerValue + priceStep * i).round()}',
-            style: const TextStyle(fontSize: 12),
+            style:  TextStyle(fontSize: 12, color: textColor),
           ),
           textAlign: TextAlign.start,
           //글씨 왼쪽에서 오른쪽
@@ -62,20 +69,20 @@ class ChartPainter extends CustomPainter {
       tp.paint(canvas, Offset(10, size.height - 50 - i * (size.height / 5.0)));
     }
 
-    final spacePerHour = size.width / infos.length;
+    final spacePerHour = (size.width - spacing) / infos.length;
     for (var i = 0; i < infos.length; i += 12) {
       final hour = infos[i].date.hour;
       final tp = TextPainter(
           text: TextSpan(
             text: '$hour',
-            style: const TextStyle(fontSize: 12),
+            style:  TextStyle(fontSize: 12, color: textColor),
           ),
           textAlign: TextAlign.start,
           //글씨 왼쪽에서 오른쪽
           textDirection: TextDirection.ltr);
       tp.layout();
       //그린다
-      tp.paint(canvas, Offset(i * spacePerHour + 50, size.height - 5));
+      tp.paint(canvas, Offset(i * spacePerHour + 50, size.height +20));
     }
 
     var lastX = 0.0;
@@ -90,9 +97,9 @@ class ChartPainter extends CustomPainter {
           (nextInfo.close - lowerValue) / (upperValue - lowerValue);
       //좌표
       final x1 = spacing + i * spacePerHour;
-      final y1 = size.height - spacing - (leftRatio * size.height).toDouble();
+      final y1 = size.height - (leftRatio * size.height).toDouble();
       final x2 = spacing + (i + 1) * spacePerHour;
-      final y2 = size.height - spacing - (rightRatio * size.height).toDouble();
+      final y2 = size.height - (rightRatio * size.height).toDouble();
 
       if (i == 0) {
         strokePath.moveTo(x1, y1);
@@ -101,6 +108,21 @@ class ChartPainter extends CustomPainter {
       strokePath.quadraticBezierTo(x1, y1, lastX, (y1 + y2) / 2.0);
     }
 
+    final fillpath = Path.from(strokePath)
+      ..lineTo(lastX, size.height - spacing)
+      ..lineTo(spacing, size.height - spacing)
+      ..close();
+
+    final fillPaint = Paint()
+      ..color = graphColor
+      ..style = PaintingStyle.fill
+      ..shader =
+          ui.Gradient.linear(Offset.zero, Offset(0, size.height - spacing), [
+        graphColor.withOpacity(0.22),
+        Colors.transparent,
+      ]);
+
+    canvas.drawPath(fillpath, fillPaint);
     canvas.drawPath(strokePath, strokePaint);
   }
 

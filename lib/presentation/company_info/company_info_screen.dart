@@ -69,7 +69,12 @@ class CompanyInfoScreen extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
-          if (state.stockInfos.isNotEmpty) StockChart(infos: state.stockInfos, color: Theme.of(context).colorScheme.primary,)
+          if (state.stockInfos.isNotEmpty)
+            StockChart(
+              infos: state.stockInfos,
+              graphColor: Theme.of(context).colorScheme.primary,
+              textColor: Theme.of(context).colorScheme.onSurface,
+            )
         ],
       ),
     );
